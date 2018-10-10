@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppleReceiptVerifier.Interfaces
+namespace AppleReceiptVerifierCore.Interfaces
 {
     /// <summary>
     /// Apple Http Request interface
@@ -19,6 +19,6 @@ namespace AppleReceiptVerifier.Interfaces
         /// <returns>
         /// response as string
         /// </returns>
-        string GetResponse(Uri url, string postData);
+        Task<string> GetResponse(Uri url, string postData);
     }
 }

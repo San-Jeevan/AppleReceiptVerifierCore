@@ -6,7 +6,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace AppleReceiptVerifier.Converters
+namespace AppleReceiptVerifierCore.Converters
 {
     internal class EpochDateTimeConverter : DateTimeConverterBase
     {

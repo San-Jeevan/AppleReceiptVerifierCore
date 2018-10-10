@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AppleReceiptVerifier.Models;
+using AppleReceiptVerifierCore.Models;
 
-namespace AppleReceiptVerifier.Interfaces
+namespace AppleReceiptVerifierCore.Interfaces
 {
     /// <summary>
     /// Receipt Manager Interface
@@ -19,6 +16,6 @@ namespace AppleReceiptVerifier.Interfaces
         /// <param name="receiptData">receipt data from apple</param>
         /// <param name="password">Your app’s shared secret (a hexadecimal string). Only used for receipts that contain auto-renewable subscriptions.</param>
         /// <returns>returns Response</returns>
-        Response ValidateReceipt(Uri postUri, string receiptData, string password = null);
+        Task<AppleReceiptResponse> ValidateReceipt(Uri postUri, string base64_receiptData, string password = null);
     }
 }

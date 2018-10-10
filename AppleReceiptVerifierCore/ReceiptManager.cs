@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppleReceiptVerifier.Interfaces;
-using AppleReceiptVerifier.Models;
+using AppleReceiptVerifierCore.Interfaces;
+using AppleReceiptVerifierCore.Models;
 using Newtonsoft.Json;
 
-namespace AppleReceiptVerifier
+namespace AppleReceiptVerifierCore
 {
     /// <summary>
     /// Receipt Manager
@@ -43,14 +43,12 @@ namespace AppleReceiptVerifier
         /// <param name="receiptData">receipt data from apple</param>
         /// <param name="password">Your app’s shared secret (a hexadecimal string). Only used for receipts that contain auto-renewable subscriptions.</param>
         /// <returns>returns <see cref="Response" />Response</returns>
-        public Response ValidateReceipt(Uri postUri, string receiptData, string password = null)
+        public async Task<AppleReceiptResponse> ValidateReceipt(Uri postUri, string base64_receiptData, string password = null)
         {
             try
             {
-                string receipt64 = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(receiptData));
-
                 Dictionary<string, string> postObject = new Dictionary<string, string>();
-                postObject.Add("receipt-data", receipt64);
+                postObject.Add("receipt-data", base64_receiptData);
 
                 if (!string.IsNullOrEmpty(password))
                 {
@@ -59,11 +57,10 @@ namespace AppleReceiptVerifier
                 
                 string json = JsonConvert.SerializeObject(postObject);
 
-                var rawResponse = this.appleHttpRequest.GetResponse(postUri, json);
-                var serializedResponse = JsonConvert.DeserializeObject<Response>(rawResponse);
+                var rawResponse = await this.appleHttpRequest.GetResponse(postUri, json);
+                var serializedResponse = JsonConvert.DeserializeObject<AppleReceiptResponse>(rawResponse);
                 if (serializedResponse != null)
                 {
-                    serializedResponse.RawResponse = rawResponse;
                     return serializedResponse;
                 }
             }
@@ -71,7 +68,7 @@ namespace AppleReceiptVerifier
             {
             }
             
-            return new Response() { Status = 1 };
+            return new AppleReceiptResponse() { status = 1 };
         }
     }
 }

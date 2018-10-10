@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace AppleReceiptVerifier.Models
+namespace AppleReceiptVerifierCore.Models
 {
     /// <summary>
     /// Response object

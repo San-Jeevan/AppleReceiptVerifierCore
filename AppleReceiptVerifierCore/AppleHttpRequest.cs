@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using AppleReceiptVerifier.Interfaces;
+using AppleReceiptVerifierCore.Interfaces;
 
-namespace AppleReceiptVerifier
+
+namespace AppleReceiptVerifierCore
 {
     /// <summary>
     /// Apple Http Request
     /// </summary>
     internal class AppleHttpRequest : IAppleHttpRequest
     {
+
         /// <summary>
         /// Gets the response.
         /// </summary>
@@ -22,28 +21,21 @@ namespace AppleReceiptVerifier
         /// <returns>
         /// response as string
         /// </returns>
-        public string GetResponse(Uri url, string postData)
+        public async Task<string> GetResponse(Uri url, string postData)
         {
             string response = string.Empty;
-
             try
             {
-                WebRequest webRequest = WebRequest.Create(url);
-                webRequest.ContentType = "text/plain";
-                webRequest.Method = "POST";
-
-                using (var streamWriter = new StreamWriter(webRequest.GetRequestStream()))
+                var postdata = new StringContent(postData, Encoding.UTF8, "application/json");
+                using (var httpClient = new HttpClient())
                 {
-                    streamWriter.Write(postData);
-                    streamWriter.Flush();
-                    streamWriter.Close();
-                }
+                    var httpResponse = await httpClient.PostAsync(url, postdata);
 
-                WebResponse webResponse = webRequest.GetResponse();
-                using (var streamReader = new StreamReader(webResponse.GetResponseStream()))
-                {
-                    response = streamReader.ReadToEnd();
-                    streamReader.Close();
+                    if (httpResponse.Content != null)
+                    {
+                        var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                        return responseContent;
+                    }
                 }
             }
             catch

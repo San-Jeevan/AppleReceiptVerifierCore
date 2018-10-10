@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppleReceiptVerifier
+namespace AppleReceiptVerifierCore
 {
     /// <summary>
     /// Environments used to validate a receipt with Apple
