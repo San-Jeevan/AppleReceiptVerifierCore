@@ -45,16 +45,16 @@ namespace AppleReceiptVerifierCore.Models
         public int status { get; set; }
         public string environment { get; set; }
 
-        public Receipt LatestExpiredReceiptInfo { get; set; }
-        public Receipt LatestReceiptInfo { get; set; }
-        public string LatestReceipt { get; set; }
-        public string ExpirationIntent { get; set; }
-        public string IsInBillingRetryPeriod { get; set; }
+        public Receipt latest_expired_receipt_info { get; set; }
+        public Receipt latest_receipt_info { get; set; }
+        public string latest_receipt { get; set; }
+        public string expiration_intent { get; set; }
+        public string is_in_billing_retry_period { get; set; }
         public string IsInBillingRetryPeriodDescription
         {
             get
             {
-                switch (this.IsInBillingRetryPeriod)
+                switch (this.is_in_billing_retry_period)
                 {
                     case "1": return "App Store is still attempting to renew the subscription.";
                     case "0": return "App Store has stopped attempting to renew the subscription.";
@@ -69,7 +69,7 @@ namespace AppleReceiptVerifierCore.Models
         {
             get
             {
-                switch (this.ExpirationIntent)
+                switch (this.expiration_intent)
                 {
                     case "1": return "Customer canceled their subscription.";
                     case "2": return "Billing error; for example customer’s payment information was no longer valid.";
@@ -106,6 +106,9 @@ namespace AppleReceiptVerifierCore.Models
                         return "This receipt is from the test environment, but it was sent to the production environment for verification. Send it to the test environment instead.";
                     case 21008:
                         return "This receipt is from the production environment, but it was sent to the test environment for verification. Send it to the production environment instead.";
+                    case 21010:
+                        return "This receipt could not be authorized. Treat this the same as if a purchase was never made.";
+
                     case 1:
                         return "Something went wrong...";
                     case 0:
