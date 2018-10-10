@@ -9,6 +9,8 @@ https://github.com/devdaves/AppleReceiptVerifier
 # How to use
 
 ReceiptManager receiptManager = new ReceiptManager();
+
+
 var result = await receiptManager.ValidateReceipt(AppleReceiptVerifierCore.Environments.Sandbox, "base encoded receipt");
 
 
