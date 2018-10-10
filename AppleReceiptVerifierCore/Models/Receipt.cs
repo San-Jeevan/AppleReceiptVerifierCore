@@ -44,5 +44,76 @@ namespace AppleReceiptVerifierCore.Models
         public Receipt receipt { get; set; }
         public int status { get; set; }
         public string environment { get; set; }
+
+        public Receipt LatestExpiredReceiptInfo { get; set; }
+        public Receipt LatestReceiptInfo { get; set; }
+        public string LatestReceipt { get; set; }
+        public string ExpirationIntent { get; set; }
+        public string IsInBillingRetryPeriod { get; set; }
+        public string IsInBillingRetryPeriodDescription
+        {
+            get
+            {
+                switch (this.IsInBillingRetryPeriod)
+                {
+                    case "1": return "App Store is still attempting to renew the subscription.";
+                    case "0": return "App Store has stopped attempting to renew the subscription.";
+                    case null:
+                    case "":
+                        return "No value was set for 'is_in_billing_retry_period'";
+                    default: return "Unknown value";
+                }
+            }
+        }
+        public string ExpirationIntentDescription
+        {
+            get
+            {
+                switch (this.ExpirationIntent)
+                {
+                    case "1": return "Customer canceled their subscription.";
+                    case "2": return "Billing error; for example customer’s payment information was no longer valid.";
+                    case "3": return "Customer did not agree to a recent price increase.";
+                    case "4": return "Product was not available for purchase at the time of renewal.";
+                    case "5": return "Unknown error.";
+                    case null:
+                    case "":
+                        return "No value was set for 'expiration_intent'";
+                    default: return "Unknown value";
+                }
+            }
+        }
+
+        public string StatusDescription
+        {
+            get
+            {
+                switch (status)
+                {
+                    case 2100:
+                        return "The App Store could not read the JSON object you provided.";
+                    case 21002:
+                        return "The data in the receipt-data property was malformed or missing.";
+                    case 21003:
+                        return "The receipt could not be authenticated.";
+                    case 21004:
+                        return "The shared secret you provided does not match the shared secret on file for your account. Only returned for iOS 6 style transaction receipts for auto - renewable subscriptions.";
+                    case 21005:
+                        return "The receipt server is not currently available.";
+                    case 21006:
+                        return "This receipt is valid but the subscription has expired. When this status code is returned to your server, the receipt data is also decoded and returned as part of the response. Only returned for iOS 6 style transaction receipts for auto - renewable subscriptions.";
+                    case 21007:
+                        return "This receipt is from the test environment, but it was sent to the production environment for verification. Send it to the test environment instead.";
+                    case 21008:
+                        return "This receipt is from the production environment, but it was sent to the test environment for verification. Send it to the production environment instead.";
+                    case 1:
+                        return "Something went wrong...";
+                    case 0:
+                        return "OK";
+                    default:
+                        return string.Empty;
+                }
+            }
+        }
     }
 }
