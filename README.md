@@ -6,6 +6,8 @@ this is just a .net core port of
 
 https://github.com/devdaves/AppleReceiptVerifier
 
+//edit: added async await + fixed the model so its compatible per date 10.10.2018
+
 # How to use
 
 ```
