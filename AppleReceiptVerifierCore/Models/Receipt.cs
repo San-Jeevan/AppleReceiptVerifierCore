@@ -20,12 +20,12 @@ namespace AppleReceiptVerifierCore.Models
     public class Receipt
     {
         public string receipt_type { get; set; }
-        public int adam_id { get; set; }
-        public int app_item_id { get; set; }
+        public long adam_id { get; set; }
+        public long app_item_id { get; set; }
         public string bundle_id { get; set; }
         public string application_version { get; set; }
-        public int download_id { get; set; }
-        public int version_external_identifier { get; set; }
+        public long download_id { get; set; }
+        public long version_external_identifier { get; set; }
         public string receipt_creation_date { get; set; }
         public string receipt_creation_date_ms { get; set; }
         public string receipt_creation_date_pst { get; set; }
