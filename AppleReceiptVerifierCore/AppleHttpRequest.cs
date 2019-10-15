@@ -24,22 +24,16 @@ namespace AppleReceiptVerifierCore
         public async Task<string> GetResponse(Uri url, string postData)
         {
             string response = string.Empty;
-            try
+            var postdata = new StringContent(postData, Encoding.UTF8, "application/json");
+            using (var httpClient = new HttpClient())
             {
-                var postdata = new StringContent(postData, Encoding.UTF8, "application/json");
-                using (var httpClient = new HttpClient())
-                {
-                    var httpResponse = await httpClient.PostAsync(url, postdata);
+                var httpResponse = await httpClient.PostAsync(url, postdata);
 
-                    if (httpResponse.Content != null)
-                    {
-                        var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                        return responseContent;
-                    }
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                    return responseContent;
                 }
-            }
-            catch
-            {
             }
 
             return response;
